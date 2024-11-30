@@ -4,6 +4,8 @@ const assert = require("assert");
 (async function firstTest() {
     let driver;
 
+    //Test
+
     try {
         driver = await new Builder().forBrowser(Browser.CHROME).build();
         await driver.get('https://hyperlab.hits.ai/');
