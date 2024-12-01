@@ -4,12 +4,12 @@ const { LoginView } = require('../../pages/LoginProcess/LoginView.js');
 const { VerificationView } = require('../../pages/LoginProcess/VerificationView.js');
 const assert = require("assert");
 
-async function executeLogin() {
-    let driver;
-    
+async function executeLogin(driver) {
     try {
-        // 드라이버 초기화
-        driver = await new Builder().forBrowser(Browser.CHROME).build();
+        // driver가 전달되지 않은 경우에만 새로 생성
+        if (!driver) {
+            driver = await new Builder().forBrowser(Browser.CHROME).build();
+        }
         
         // 타임아웃 설정
         await driver.manage().setTimeouts({
@@ -24,7 +24,7 @@ async function executeLogin() {
         await driver.sleep(2000);
         console.log('페이지 로드 완료');
 
-        // LoginView 인스턴스 생성
+        // LoginView, verificationView 인스턴스 생성
         const loginView = new LoginView(driver);
         const verificationView = new VerificationView(driver);
 
@@ -52,15 +52,11 @@ async function executeLogin() {
         await driver.sleep(3000);
         console.log('\n로그인 완료 ✨');
 
+        return driver;  // driver 반환 추가
+
     } catch (error) {
         console.error('로그인 실패:', error);
         throw error;
-    } finally {
-        if (driver) {
-            await driver.sleep(1000);
-            await driver.quit();
-            console.log('브라우저 종료');
-        }
     }
 }
 
