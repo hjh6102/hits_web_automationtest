@@ -31,7 +31,7 @@ const { BenchlistView } = require('../../pages/LoginProcess/BenchlistView.js');
         throw error;
     } finally {
         if (driver) {
-            await driver.sleep(1000);
+            await driver.sleep(2000);
             await driver.quit();
             console.log('브라우저 종료');
         }
